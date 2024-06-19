@@ -58,7 +58,7 @@ const Page = () => {
 
         router.push({
           pathname: "/verify/[phone]",
-          params: { phone: fullPhoneNumber, signin: "true" },
+          params: { data: fullPhoneNumber, type: "phone",  signin: "true" },
         });
       } catch (err) {
         console.log("error", JSON.stringify(err, null, 2));
@@ -71,17 +71,31 @@ const Page = () => {
     }
     if (type === SignInType.Email) {
       try {
-       
-        const completeSignIn = await signIn!.create({
+
+        const { supportedFirstFactors } = await signIn!.create({
           identifier: email,
         });
+        const firstEmailFactor: any = supportedFirstFactors.find(
+          (factor: any) => {
+            return factor.strategy === "email_code";
+          }
+        );
+
+        const { emailAddressId } = firstEmailFactor;
+
+        await signIn!.prepareFirstFactor({
+          strategy: "email_code",
+          emailAddressId,
+        });
+       
+  
         // This is an important step,
         // This indicates the user is signed in
-        await setActive({ session: completeSignIn.createdSessionId });
+        // await setActive({ session: completeSignIn.createdSessionId });
 
         router.push({
           pathname: "/verify/[phone]",
-          params: { phone: email, signin: "true" },
+          params: { data: email, type: "email", signin: "true" },
         });
       } catch (err) {
         console.log("error", JSON.stringify(err, null, 2));
@@ -224,45 +238,10 @@ const Page = () => {
           </TouchableOpacity>
         )}
 
-        {/* <TouchableOpacity
-          onPress={() => onSignIn(SignInType.Google)}
-          style={[
-            defaultStyles.pillButton,
-            {
-              flexDirection: "row",
-              gap: 16,
-              marginTop: 20,
-              backgroundColor: "#fff",
-            },
-          ]}
-        >
-          <Ionicons name="logo-google" size={24} color={"#000"} />
-          <Text style={[defaultStyles.buttonText, { color: "#000" }]}>
-            Continue with email
-          </Text>
-        </TouchableOpacity> */}
-
         <SignInWithOAuth strategy={"oauth_google"} />
 
         <SignInWithOAuth strategy={"oauth_apple"} />
 
-        {/* <TouchableOpacity
-          onPress={() => onSignIn(SignInType.Apple)}
-          style={[
-            defaultStyles.pillButton,
-            {
-              flexDirection: "row",
-              gap: 16,
-              marginTop: 20,
-              backgroundColor: "#fff",
-            },
-          ]}
-        >
-          <Ionicons name="logo-apple" size={24} color={"#000"} />
-          <Text style={[defaultStyles.buttonText, { color: "#000" }]}>
-            Continue with email
-          </Text>
-        </TouchableOpacity> */}
       </View>
     </KeyboardAvoidingView>
   );

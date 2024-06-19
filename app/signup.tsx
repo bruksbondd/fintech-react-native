@@ -31,7 +31,7 @@ const Page = () => {
       });
       signUp!.preparePhoneNumberVerification();
 
-      router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber } });
+      router.push({ pathname: '/verify/[phone]', params: { data: fullPhoneNumber, type: 'phone' } });
     } catch (error) {
       console.error('Error signing up:', error);
     }
