@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar";
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 import * as SecureStore from 'expo-secure-store';
 import SignInWithOAuth from "@/components/SignInWithOAuth";
+import { UserInactivityProvider } from "@/context/UserInactivity";
 
 
 
@@ -152,13 +153,13 @@ const RootLayoutNav = () => {
   return (
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
 
-    
+<UserInactivityProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar style="light" />
         <InitialLayout />
         
       </GestureHandlerRootView>
-
+</UserInactivityProvider>
 
 
     </ClerkProvider>
