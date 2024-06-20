@@ -50,7 +50,7 @@ const SignInWithOAuth = ({ strategy }: SignInWithOAuthProps) => {
         },
       ]}
     >
-      {strategy === "oauth_apple" ? (
+      {strategy === "oauth_google" ? (
         <Ionicons name="logo-google" size={24} color={"#000"} />
       ) : (
         <Ionicons name="logo-apple" size={24} color={"#000"} />

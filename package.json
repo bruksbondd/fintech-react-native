@@ -16,6 +16,7 @@
   "dependencies": {
     "@clerk/clerk-expo": "^1.2.1",
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-menu/menu": "^1.1.2",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.14",
     "expo-asset": "~10.0.9",
