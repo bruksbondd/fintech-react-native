@@ -26,6 +26,7 @@ const List = ({ children, editing, onDragEnd }: ListProps) => {
     },
   });
 
+
   return (
     <Animated.ScrollView
       onScroll={onScroll}
