@@ -15,7 +15,7 @@ const Page = () => {
   const onAddMoney = () => {
     runTransaction({
       id: Math.random().toString(),
-      amount: Math.floor(Math.random() * 1000) * (Math.random() > 0.5 ? 1 : -1),
+      amount: Math.floor(Math.random() * 1000) * (Math.random() > 0.5 ? 1 : 2),
       date: new Date(),
       title: 'Added money',
     });
