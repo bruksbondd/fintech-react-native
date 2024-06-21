@@ -1,9 +1,10 @@
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
-
+import { BlurView } from 'expo-blur';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const ICONS = [
@@ -30,7 +31,7 @@ const Page = () => {
 
   const [activeIcon, setActiveIcon] = useState('Default');
 
-
+ 
 
   const onSaveUser = async () => {
     try {
@@ -43,18 +44,38 @@ const Page = () => {
     }
   };
 
+  const onCaptureImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.75,
+      base64: true,
+    });
 
+    if (!result.canceled) {
+      const base64 = `data:image/png;base64,${result.assets[0].base64}`;
+      console.log(base64);
+
+      user?.setProfileImage({
+        file: base64,
+      });
+    }
+  };
 
   const onChangeAppIcon = async (icon: string) => {
-    
+    setActiveIcon(icon);
   };
 
   return (
-    <View
-    
+    <BlurView
+      intensity={80}
+      tint={'dark'}
       style={{ flex: 1, paddingTop: 100, backgroundColor: 'rgba(0,0,0,0.5)' }}>
       <View style={{ alignItems: 'center' }}>
-      
+        <TouchableOpacity onPress={onCaptureImage} style={styles.captureBtn}>
+          {user?.imageUrl && <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />}
+        </TouchableOpacity>
 
         <View style={{ flexDirection: 'row', gap: 6 }}>
           {!edit && (
@@ -131,7 +152,7 @@ const Page = () => {
           </TouchableOpacity>
         ))}
       </View>
-    </View>
+    </BlurView>
   );
 };
 

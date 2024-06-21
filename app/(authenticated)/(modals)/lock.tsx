@@ -68,7 +68,7 @@ const Page = () => {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
   };
-console.log('code', code[3])
+
   return (
     <SafeAreaView>
       <Text style={styles.greeting}>Welcome back, {firstName}</Text>
